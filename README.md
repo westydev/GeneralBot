@@ -1,0 +1,2 @@
+# GeneralBot
+Professional Discord Bot.
