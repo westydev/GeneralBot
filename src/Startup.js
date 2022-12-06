@@ -1,6 +1,7 @@
-const { BOT } = require("./Settings/Config")
-const { OAuth2Scopes, Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
+const { BOT, DATABASE } = require("./Settings/Config")
+const { OAuth2Scopes, Client, Collection, GatewayIntentBits, Partials, Events } = require("discord.js");
 const { error, info, success, warn } = require("./helpers/Logger/Log");
+const mongoose = require('mongoose')
 
 module.exports = class extends Client {
   constructor() {
@@ -34,7 +35,8 @@ module.exports = class extends Client {
     require("./handlers/commandLoader");
     require("./handlers/eventHandler")(this);
     require("./handlers/commandHandler")(this);
-
     this.login(BOT.token).catch(e => error(e))
+    
+    mongoose.connect(DATABASE.mongooseConnection).then(x => success("MongoDB bağlantısı kuruldu!")).catch(err => error(err));
   };
 };
