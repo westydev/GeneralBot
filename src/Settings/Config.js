@@ -5,5 +5,8 @@ module.exports = {
         guildId: "",
         HandlerMode: "Guild",
         ownerId: ""
+    },
+    DATABASE: {
+        mongooseConnection: ""
     }
 }
