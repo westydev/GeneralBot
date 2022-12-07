@@ -9,5 +9,5 @@ Professional Discord Bot.
 - ✅ 5 Stars | Add More Commands.
 - ❌ 15 Stars | Language File And Language System.
 - ❌ 20 Stars | Add Optimization System.
-- ❌ 25 Stars | Add Admin Panel.
-- ❌ 30 Stars | Add Dashboard.
+- ❌ 25 Stars | Add Dashboard Panel.
+- ❌ 30 Stars | Add Admin Panel.
