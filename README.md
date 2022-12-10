@@ -12,3 +12,10 @@ Professional Discord Bot.
 - ❌ 25 Stars | Add Dashboard.
 - ❌ 30 Stars | Add Admin Panel.
 - ❌ 40 Stars | Add 40 Commands And 5 System.
+
+## ✍️ Usage
+1. İnstall Npm Modules.
+
+2. Edit the `src/Settings/Config.js` file
+
+3. Run `run.bat`
