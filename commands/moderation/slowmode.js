@@ -6,14 +6,13 @@ module.exports = {
     .setDescription('Sets Channel Timeout.')
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addStringOption(option => option.setName('number').setDescription('Slowmode Time').setRequired(true)),
-  async execute (interaction) {
-
+  async execute (interaction, Lang) {
     const time = interaction.options.getString('number')
-    if (time > 1000) return interaction.reply("Yavaş mod en fazla 1000 olabilir.")
-    if (isNaN(time)) return interaction.reply(`Bu bir sayı değil!`);
+    if (time > 1000) return interaction.reply(Lang.commands.moderationCommands.slowmode.slowModeMaxTimeError)
+    if (isNaN(time)) return interaction.reply(Lang.commands.moderationCommands.slowmode.slowModeIsNan);
     interaction.channel.setRateLimitPerUser(time, "Kanal Zamanasimi");
     interaction.reply(
-    `Artık bu kanala **${time}** saniyede bir mesaj yazılabilecek.`
-  );
+      (Lang.commands.moderationCommands.slowmode.slowModeSucces).replaceAll("${time}",time)
+    );
   }
 }

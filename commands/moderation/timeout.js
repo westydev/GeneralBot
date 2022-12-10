@@ -10,7 +10,7 @@ module.exports = {
     .addNumberOption(option => option.setName('time').setDescription('Minute.').setRequired(true))
     .addStringOption(option => option.setName('reason').setDescription('Reason.').setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers),
-  async execute(interaction) {
+  async execute(interaction, Lang) {
     const member = interaction.options.getMember("user");
     const time = interaction.options.getNumber("time");
     const reason = interaction.options.getString("reason");
@@ -27,6 +27,6 @@ module.exports = {
      });
      
      await MuteMember.approval();
-     await interaction.reply({ content: `İşlem Başarılı` });
+     await interaction.reply({ content: `${Lang.commands.moderationCommands.timeout.timeoutSucces}` });
   },
 };

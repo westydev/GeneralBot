@@ -9,7 +9,7 @@ module.exports = {
     .addUserOption(option => option.setName('user').setDescription('User.').setRequired(true))
     .addStringOption(option => option.setName('reason').setDescription('Reason.').setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
-  async execute(interaction) {
+  async execute(interaction, Lang) {
     const member = interaction.options.getMember("user");
     const reason = interaction.options.getString("reason");
     const moderator = interaction.client.guilds.cache.get(interaction.guild.id).members.cache.get(interaction.user.id);
@@ -20,6 +20,6 @@ module.exports = {
        moderator: moderator
      });
      await BanMember.approval();
-      await interaction.reply({ content: `İşlem Başarılı` })
+      await interaction.reply({ content: `${Lang.commands.moderationCommands.ban.banSuccess}` });
   },
 };

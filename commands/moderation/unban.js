@@ -8,11 +8,19 @@ module.exports = {
     .setDescription('Yasaklama Kaldırma Komutu.')
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
     .addStringOption(option => option.setName('user').setDescription('Unban User.').setRequired(true)),
-  async execute (interaction) {
+  async execute (interaction, Lang) {
     const member = interaction.options.getString('user')
 
-    var unBanLOG = new MessageEmbed()
-    .addFields({name: `> **Yasağı Kaldırılan** **__${member}__**`, value: `> **Yasaklamayı Kaldıran**  **__${interaction.user.tag}__**` })
+    var unBanLOG = new EmbedBuilder().addFields({
+      name: `${Lang.commands.moderationCommands.unban.unbannedMember.replaceAll(
+        "${member}",
+        member
+      )}`,
+      value: `${Lang.commands.moderationCommands.unban.unbannedMemmberAuthor.replaceAll(
+        "${interaction.user.tag}",
+        interaction.user.tag
+      )}`,
+    });
     await interaction.reply({ embeds: [unBanLOG] })
     await interaction.guild.members.unban(member).catch(e => { interaction.reply({ content: e }) })
   }
