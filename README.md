@@ -14,7 +14,7 @@ Professional Discord Bot.
 - ❌ 40 Stars | Add 40 Commands And 5 System.
 
 ## ✍️ Usage
-1. İnstall Npm Modules.
+1. Install the npm modules
 
 2. Edit the `src/Settings/Config.js` file
 
