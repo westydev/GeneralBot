@@ -31,6 +31,7 @@ module.exports = class extends Client {
     process.on("uncaughtExceptionMonitor", (err) => { if (err === "DiscordAPIError[10062]: Unknown interaction" || err === "DiscordAPIError[40060]: Interaction has already been acknowledged.") return; error(err); })
   }
   
+  
   start() {
     require("./handlers/commandLoader");
     require("./handlers/eventHandler")(this);

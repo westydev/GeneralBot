@@ -1,0 +1,32 @@
+{
+  "commands": {
+    "moderationCommands": {
+      "ban": {
+        "banSuccess": "Transaction Successful."
+      },
+      "banlist": {},
+      "clear": {
+        "clearSuccess": "> **Successfully** **__${amount}__** **Message Deleted!**"
+      },
+      "kick": {
+        "kickSuccess": "Transaction Successful."
+      },
+      "nuke": {
+        "nukeSuccess": "Channel Exploded Successfully."
+      },
+      "slowmode": {
+        "slowModeMaxTimeError": "Slow mode can be up to 1000.",
+        "slowModeIsNan": "This is not a number!",
+        "slowModeSucces": "It is now possible to write a message to this channel once every **${time}** seconds."
+      },
+      "timeout": {
+        "timeoutSucces": "Transaction Successful."
+      },
+      "unban": {
+        "unbannedMember": "> **Unbanned** **__${member}__**",
+        "unbannedMemmberAuthor": "> **Unban Moderator** **__${interaction.user.tag}__**"
+      }
+    }
+  },
+  "systems": {}
+}

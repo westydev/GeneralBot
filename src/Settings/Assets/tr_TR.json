@@ -1,0 +1,34 @@
+{
+  "commands": {
+    "moderationCommands": {
+      "ban": {
+        "banSuccess": "İşlem Başarılı"
+      },
+      "banlist": {
+
+      },
+      "clear": {
+        "clearSuccess": "> **Başarıyla** **__${amount}__** **Mesaj Silindi !**"
+      },
+      "kick": {
+        "kickSuccess": "İşlem Başarılı"
+      },
+      "nuke": {
+        "nukeSuccess": "Kanal Başarıyla Patlatıldı."
+      },
+      "slowmode": {
+            "slowModeMaxTimeError": "Yavaş mod en fazla 1000 olabilir.",
+            "slowModeIsNan": "Bu bir sayı değil!",
+            "slowModeSucces": "Artık bu kanala **${time}** saniyede bir mesaj yazılabilecek."
+      },
+      "timeout": {
+        "timeoutSucces": "İşlem Başarılı"
+      },
+      "unban": {
+        "unbannedMember": "> **Yasağı Kaldırılan** **__${member}__**",
+        "unbannedMemmberAuthor": "> **Yasaklamayı Kaldıran**  **__${interaction.user.tag}__**"
+      }
+    }
+  },
+  "systems": {}
+}
