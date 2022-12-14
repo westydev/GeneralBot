@@ -11,7 +11,7 @@ Professional Discord Bot.
 - ✅ 20 Stars | Add Optimization System.
 - ❌ 25 Stars | Add Dashboard.
 - ❌ 30 Stars | Add Admin Panel.
-- ❌ 40 Stars | Add 40 Commands And 5 System.
+- ❌ 40 Stars | Add 40 Commands And 15 System.
 
 ## ✍️ Usage
 1. Install the npm modules
