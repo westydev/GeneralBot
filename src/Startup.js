@@ -1,11 +1,19 @@
 const { BOT, DATABASE } = require("./Settings/Config")
-const { OAuth2Scopes, Client, Collection, GatewayIntentBits, Partials, Events } = require("discord.js");
+const { OAuth2Scopes, Client, Collection, GatewayIntentBits, Partials, Events, Options } = require("discord.js");
 const { error, info, success, warn } = require("./helpers/Logger/Log");
 const mongoose = require('mongoose')
 
 module.exports = class extends Client {
   constructor() {
-    super ({
+    super({
+      sweepers: {
+        ...Options.DefaultSweeperSettings,
+        messages: {
+          interval: 3600, // Every hour...
+          lifetime: 1800, // Remove messages older than 30 minutes.
+        },
+      },
+      
       intents: 3276799,
 
       scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
@@ -36,6 +44,7 @@ module.exports = class extends Client {
     require("./handlers/commandLoader");
     require("./handlers/eventHandler")(this);
     require("./handlers/commandHandler")(this);
+    require("./dashboard/App")
     this.login(BOT.token).catch(e => error(e))
     
     mongoose.connect(DATABASE.mongooseConnection).then(x => success("MongoDB bağlantısı kuruldu!")).catch(err => error(err));

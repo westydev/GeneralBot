@@ -28,12 +28,12 @@ async function checkLanguage({guildID}) {
     const serverLanguage = await serverData.lang;
 
     switch (serverLanguage) {
-        case "tr_TR":
-            return tr_TR;
-        case "en_EN":
-            return en_EN;
-        default:
-            break;
+      case "tr_TR":
+        return tr_TR;
+      case "en_US":
+        return en_EN;
+      default:
+        break;
     }
 }
 

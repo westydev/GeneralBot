@@ -5,7 +5,7 @@ const { BOT } = require('../Settings/Config')
 const { error, info, success, warn } = require("../helpers/Logger/Log");
 
 const commands = []
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'))
 const HandlerMode = BOT.HandlerMode;
 
 const getFilesRecursively = (directory) => {
@@ -19,7 +19,7 @@ const getFilesRecursively = (directory) => {
     }
   }
 }
-getFilesRecursively('./commands/')
+getFilesRecursively('./src/commands/')
 
 for (const file of commandFiles) {
   const command = require(`../../${file}`)

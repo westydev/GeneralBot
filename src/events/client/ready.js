@@ -1,6 +1,7 @@
 const { error, info, success, warn } = require("../../helpers/Logger/Log")
-const { BOT } = require("../../Settings/Config");
+const { BOT, OPTIMIZATION } = require("../../Settings/Config");
 const Server = require("../../database/Server");
+const { clearCache } = require("../../helpers/DiscordAPI/Cache")
 
 module.exports = {
   name: 'ready',
@@ -9,7 +10,7 @@ module.exports = {
       info(`Discord API Connected.`);
       
       client.user.setActivity(BOT.botActivity);
-
+      
 
       client.guilds.cache.forEach(async guild => {
         const Guild = await Server.findOne({ id: guild.id });
@@ -20,6 +21,6 @@ module.exports = {
           })
         await Sr.save()
         }
-      });
+      });      
   }
 }

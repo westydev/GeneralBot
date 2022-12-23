@@ -1,0 +1,27 @@
+<%- include('includes/header'); -%>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
+        <link rel="stylesheet" href="/index.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    </head>
+    <body>
+        <section>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center">
+            <% if(user && user.id){ %>
+                   <div class="card text-white bg-dark mb-3">
+                            <h5 class="card-title text-primary" style="font-size: 25px;">Guild List</h5>
+                            <p class="card-text" style="font-size: 12px;font-style:italic;color: #b3b3b3"><b>View And Edit Bot's Guild List.</b></p>
+                              <a style="font-size: 25px" href=" http://localhost:3000/admin/guildlist" class="mt-auto btn btn-lg btn-block btn-success">Go</a>
+                   </div>
+            <% }else {  %>
+                    <p>Please login First!</p>
+            <%  } %>
+    </body>
+</html>
+        </section>
+        <%- include('includes/footer'); -%>
+    </body>
+</html>

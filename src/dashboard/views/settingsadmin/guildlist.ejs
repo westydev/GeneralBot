@@ -1,0 +1,55 @@
+<%- include('../includes/header'); -%>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/index.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+  </head>
+  <body>
+    <section>
+      <form method="POST">
+        <div style="display: flex; flex-wrap: wrap; justify-content: center"> 
+        <div class="form-body" style="margin-top: -2%;">
+                    <div class="form-holder">
+                        <div class="form-content">
+                            <div class="form-items">
+                              <br><br>
+                                    <p style="font-style: italic;" class="disabled">Guild ID</p>
+                                    <input style="margin-top: -10px;" type="text" class="form-control" name="guildid" value="Guild ID" placeholder="guildid">
+                                    
+
+
+                                    <br><br>
+                                    <p style="font-style: italic;" class="disabled">Action</p>
+                                    <select name="guildtype" id="guildtype" value="2">
+                                     <option value="leaveguild">Leave Guild</option>
+                                     <option value="premiumguild">Premium Guild</option>
+                                     <option value="blacklistguild">Blacklist Guild</option>
+                                     <option value="unpremiumguild">Un Premium Guild</option>
+                                     <option value="unblacklistguild">Un Blacklist Guild</option>
+                                    </select>
+                                    <br><br>
+                                    <button type="submit" class="btn btn-success text-white" style="font-size: 40px;">
+                                        <i class="iconify" data-icon="cil:save"></i> Run
+                                    </button>
+                            </div> 
+                            </div> 
+                            </div> 
+                            </div> 
+              </div>
+      </form>
+    </section>
+    <%- include('../includes/footer'); -%>
+  </body>
+</html>

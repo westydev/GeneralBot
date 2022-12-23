@@ -17,7 +17,7 @@ const getFilesRecursively = (directory) => {
       }
     }
   }
-  getFilesRecursively('./commands/')
+  getFilesRecursively('./src/commands/')
 
   for (const file of commandFiles) {
     const command = require(`../../${file}`)
