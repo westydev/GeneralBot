@@ -9,9 +9,12 @@ Professional Discord Bot.
 - ✅ 5 Stars | Add More Commands.
 - ✅ 15 Stars | Language File And Language System.
 - ✅ 20 Stars | Add Optimization System.
-- ❌ 25 Stars | Add Dashboard.
-- ❌ 30 Stars | Add Admin Panel.
+- ✅ 25 Stars | Add Dashboard.
+- ✅ 30 Stars | Add Admin Panel.
 - ❌ 40 Stars | Add 40 Commands And 15 System.
+- ❌ 50 Stars | Update And Add New System For Dashboard.
+- ❌ 60 Stars | Ultime Modlog System.
+- ❌ 70 Stars | C# Administration Program.
 
 ## ✍️ Usage
 1. Install the npm modules
