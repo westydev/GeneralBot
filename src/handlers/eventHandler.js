@@ -11,5 +11,6 @@ for (const file of clientEventFiles) {
   } else {
     client.on(event.name, (...args) => event.execute(...args))
   }
- }  
+ }
+ require("./selfEventLoaders")  
 } 

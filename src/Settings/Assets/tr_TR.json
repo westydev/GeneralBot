@@ -4,9 +4,7 @@
       "ban": {
         "banSuccess": "İşlem Başarılı"
       },
-      "banlist": {
-
-      },
+      "banlist": {},
       "clear": {
         "clearSuccess": "> **Başarıyla** **__${amount}__** **Mesaj Silindi !**"
       },
@@ -17,9 +15,9 @@
         "nukeSuccess": "Kanal Başarıyla Patlatıldı."
       },
       "slowmode": {
-            "slowModeMaxTimeError": "Yavaş mod en fazla 1000 olabilir.",
-            "slowModeIsNan": "Bu bir sayı değil!",
-            "slowModeSucces": "Artık bu kanala **${time}** saniyede bir mesaj yazılabilecek."
+        "slowModeMaxTimeError": "Yavaş mod en fazla 1000 olabilir.",
+        "slowModeIsNan": "Bu bir sayı değil!",
+        "slowModeSucces": "Artık bu kanala **${time}** saniyede bir mesaj yazılabilecek."
       },
       "timeout": {
         "timeoutSucces": "İşlem Başarılı"
@@ -27,6 +25,14 @@
       "unban": {
         "unbannedMember": "> **Yasağı Kaldırılan** **__${member}__**",
         "unbannedMemmberAuthor": "> **Yasaklamayı Kaldıran**  **__${interaction.user.tag}__**"
+      },
+      "swearguard": {
+        "setTrue": "Sistem Açık Olarak Ayarlandı.",
+        "setFalse": "Sistem Kapalı Olarak Ayarlandı."
+      },
+      "blacklistedword": {
+        "added": "Kelime Başarıyla Eklendi.",
+        "removed": "Kelime Başarıyla Silindi."
       }
     }
   },

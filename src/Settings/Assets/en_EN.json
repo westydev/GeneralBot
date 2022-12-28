@@ -25,6 +25,14 @@
       "unban": {
         "unbannedMember": "> **Unbanned** **__${member}__**",
         "unbannedMemmberAuthor": "> **Unban Moderator** **__${interaction.user.tag}__**"
+      },
+      "swearguard": {
+        "setTrue": "System Setted True.",
+        "setFalse": "System Setted False."
+      },
+      "blacklistedword": {
+        "added": "Succes Added The Word.",
+        "removed": "Succes Removed The Word."
       }
     }
   },

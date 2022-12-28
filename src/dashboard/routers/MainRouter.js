@@ -197,10 +197,7 @@ router.post("/admin/guildlist", async (req, res) => {
            await Server.findOneAndUpdate({ id: guild.id }, { premium: false })
            break;
          case "unblacklistguild":
-           await Server.findOneAndUpdate(
-             { id: guild.id },
-             { blacklist: false }
-           );
+           await Server.findOneAndUpdate({ id: guild.id }, { blacklist: false });
            break;
          default:
            break;

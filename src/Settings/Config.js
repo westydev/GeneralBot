@@ -1,6 +1,7 @@
 module.exports = {
   BOT: {
-    token: "",
+    token:
+      "",
     appID: "1049362208582271037",
     botActivity: "Discord.JS V14 GeneralBot",
     guildId: "1049361460251340810",
@@ -14,7 +15,7 @@ module.exports = {
   DASHBOARD: {
     enabled: true,
     port: 3000,
-    main: "http://localhost:3000",
+    main: "http://localhost:3000/",
     AUTH: {
       clientID: "1049362208582271037",
       clientSecret: "",
@@ -27,4 +28,16 @@ module.exports = {
       { id: "punish-list", name: "Guild Punish List", despriction: "View Guild Punishment List.", action: "View" },
     ],
   },
+  AI: {
+    ToxicityPoints: {
+      Swear: 4,
+      Advertising: 3,
+      CapsLock: 2, 
+      Advers: 1
+    }
+  },
+  BOTLOGS: {
+    DmLogChannel: "",
+    GuildLog: ""
+  }
 };

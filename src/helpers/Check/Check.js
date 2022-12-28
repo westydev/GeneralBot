@@ -1,5 +1,5 @@
 const { BOT } = require("../../Settings/Config") 
-const Server = require("../../database/Server");
+const { User, Server, Punish } = require("../../database/Databases");
 const tr_TR = require("../../Settings/Assets/tr_TR.json")
 const en_EN = require("../../Settings/Assets/en_EN.json");
 
@@ -34,7 +34,59 @@ async function checkLanguage({guildID}) {
         return en_EN;
       default:
         break;
-    }
+    };   
+};
+async function checkUserForDatabase(id) {
+  const user = await User.findOne({ id: id });
+  if (user) {
+    return user;
+  }
+  if (!user) {
+    const nUser = new User({
+      id: id,
+    });
+    nUser.save();
+    return user;
+  }
 }
 
-module.exports = { checkOwner, checkPermission, checkLanguage };
+async function guildSystemsEnabled(id) {
+    const Guild = await Server.findOne({ id: id });
+
+    const response = {};
+
+    const guildLang = Guild.lang;
+
+    const ChatGuard = {};
+    const Log = {};
+    const GuildGuard = {};
+
+    ChatGuard["SwearGuard"] = Guild.SwearGuard;
+    ChatGuard["AdversGuard"] = Guild.AdversGuard;
+    ChatGuard["Whitelists"] = Guild.ChatGuardWhitelists;
+    ChatGuard["SwearGuardProcess"] = Guild.SwearGuardProcess;
+    ChatGuard["AdversGuardProcess"] = Guild.AdversGuardProcess;
+    ChatGuard["BlacklistedWords"] = Guild.BlacklistedWords;
+    ChatGuard["CharacterLimit"] = Guild.CharacterLimit;
+
+    Log["RoleLog"] = Guild.RoleLog;
+    Log["VoiceLogSystem"] = Guild.VoiceLogSystem;
+
+    GuildGuard["NewAccountBypass"] = Guild.NewAccountBypass;
+
+    response["ChatGuard"] = ChatGuard;
+    response["ServerLang"] = guildLang;
+    response["Log"] = Log;
+    response["GuildGuard"] = GuildGuard;
+
+    return response;
+}
+
+
+module.exports = {
+  checkOwner,
+  checkPermission,
+  checkLanguage,
+  checkUserForDatabase,
+  guildSystemsEnabled,
+};

@@ -1,7 +1,7 @@
 const { error, info, success, warn } = require("../../helpers/Logger/Log")
 const { BOT, OPTIMIZATION } = require("../../Settings/Config");
 const Server = require("../../database/Server");
-const { clearCache } = require("../../helpers/DiscordAPI/Cache")
+
 
 module.exports = {
   name: 'ready',
@@ -14,11 +14,10 @@ module.exports = {
 
       client.guilds.cache.forEach(async guild => {
         const Guild = await Server.findOne({ id: guild.id });
-
         if(!Guild) {
           const Sr = new Server({
             id: guild.id
-          })
+          });
         await Sr.save()
         }
       });      

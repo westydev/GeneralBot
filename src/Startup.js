@@ -2,7 +2,8 @@ const { BOT, DATABASE } = require("./Settings/Config")
 const { OAuth2Scopes, Client, Collection, GatewayIntentBits, Partials, Events, Options } = require("discord.js");
 const { error, info, success, warn } = require("./helpers/Logger/Log");
 const mongoose = require('mongoose')
-
+const { checkSwear, checkAdvers } = require("./helpers/Check/WordCheck")
+const logs = require("discord-logs");
 module.exports = class extends Client {
   constructor() {
     super({
@@ -44,6 +45,7 @@ module.exports = class extends Client {
     require("./handlers/commandLoader");
     require("./handlers/eventHandler")(this);
     require("./handlers/commandHandler")(this);
+    logs(this);
     require("./dashboard/App")
     this.login(BOT.token).catch(e => error(e))
     
