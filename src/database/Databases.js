@@ -1,6 +1,9 @@
-const Punish = require("./Punish")
+const Punish = require("./Loggers/Punish")
 const Server = require("./Server");
 const User = require("./User");
-const RoleLog = require("./RoleLog")
+const RoleLog = require("./Loggers/RoleLog")
+const JoinLogger = require("./Alt/Join-Quit");
+const Otorole = require("./Alt/Otorole");
 
-module.exports = { Punish, Server, User, RoleLog };
+
+module.exports = { Server, User, Punish, RoleLog, JoinLogger, Otorole };

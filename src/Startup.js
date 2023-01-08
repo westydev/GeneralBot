@@ -41,14 +41,14 @@ module.exports = class extends Client {
   }
   
   
-  start() {
+  async start() {
     require("./handlers/commandLoader");
     require("./handlers/eventHandler")(this);
     require("./handlers/commandHandler")(this);
     logs(this);
     require("./dashboard/App")
-    this.login(BOT.token).catch(e => error(e))
+    await this.login(BOT.token).catch(e => error(e))
     
-    mongoose.connect(DATABASE.mongooseConnection).then(x => success("MongoDB bağlantısı kuruldu!")).catch(err => error(err));
+   await mongoose.connect(DATABASE.mongooseConnection).then(x => success("MongoDB bağlantısı kuruldu!")).catch(err => error(err));
   };
 };

@@ -2,8 +2,7 @@ const router = require("express").Router();
 const client = global.client;
 const { PermissionsBitField, PermissionFlagsBits } = require("discord.js");
 const { DASHBOARD } = require("../../Settings/Config");
-const Punish = require("../../database/Punish");
-const Server = require("../../database/Server");
+const { Punish, Server, RoleLog, JoinLogger, Otorole } = require("../../database/Databases")
 const { checkOwner } = require("../../helpers/Check/Check")
 
 const moment = require("moment")
@@ -144,6 +143,617 @@ router.post("/dashboard/:guildID/lang-settings", checkAuth, async (req, res) => 
     });
 })
 
+router.get("/dashboard/:guildID/adversguard-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))    
+
+    res.render("settings/adversguard-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+})
+
+router.post("/dashboard/:guildID/adversguard-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    const durum = await req.body.durum;
+    const sistem = await req.body.system;
+
+    if(durum) await Server.findOneAndUpdate({ id: guild.id }, { AdversGuard: durum });
+
+    switch (sistem) {
+      case "delete_msg":
+          await Server.findOneAndUpdate({ id: guild.id }, { AdversGuardProcess: "REMOVE:MESSAGE" });
+        break;
+      case "delete_and_mute":
+          await Server.findOneAndUpdate({ id: guild.id }, { AdversGuardProcess: "REMOVE:MESSAGE_TIMEOUT:USER" });
+        break;
+      case "delete_and_ban":
+        await Server.findOneAndUpdate({ id: guild.id }, { AdversGuardProcess: "REMOVE:MESSAGE_BAN:USER" });
+        break;
+
+      default:
+        break;
+    }
+
+    res.render("settings/adversguard-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+})
+
+router.get("/dashboard/:guildID/swearguard-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))    
+
+    res.render("settings/swearguard-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+})
+
+router.post("/dashboard/:guildID/swearguard-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    const durum = await req.body.durum;
+    const sistem = await req.body.system;
+
+    if(durum) await Server.findOneAndUpdate({ id: guild.id }, { SwearGuard: durum });
+    switch (sistem) {
+      case "delete_msg":
+          await Server.findOneAndUpdate({ id: guild.id }, { SwearGuardProcess: "REMOVE:MESSAGE" });
+        break;
+      case "delete_and_mute":
+          await Server.findOneAndUpdate({ id: guild.id }, { SwearGuardProcess: "REMOVE:MESSAGE_TIMEOUT:USER" });
+        break;
+      case "delete_and_ban":
+        await Server.findOneAndUpdate({ id: guild.id }, { SwearGuardProcess: "REMOVE:MESSAGE_BAN:USER" });
+        break;
+
+      default:
+        break;
+    }
+
+    res.render("settings/swearguard-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/blacklistedword-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+    const Guild = await Server.findOne({ id: guild.id });
+    
+     res.render("settings/blacklistedword-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+       BlacklistedWords: Guild.BlacklistedWords,
+     });
+})
+
+router.post("/dashboard/:guildID/blacklistedword-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+        const Guild = await Server.findOne({ id: guild.id });
+
+
+    const words = await req.body.words;
+
+    const wordList = words.split(",");
+
+    if(wordList.length > 0) {
+    for (let index = 0; index < wordList.length; index++) {
+      const el = wordList[index];
+      await Server.findOneAndUpdate({ id: guild.id }, { $push: { BlacklistedWords: el } }, { upsert: true });
+     }
+    }
+    
+    res.render("settings/blacklistedword-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+      BlacklistedWords: Guild.BlacklistedWords
+    });
+});
+
+router.get("/dashboard/:guildID/characterlimit-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+     res.render("settings/characterlimit-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+     });
+})
+
+router.post("/dashboard/:guildID/characterlimit-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    await Server.findOneAndUpdate({ id: interaction.guild.id }, { CharacterLimit: { CharacterLimitEnabled: req.body.durum, CharacterLimit: req.body.limit } });
+    
+    res.render("settings/characterlimit-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/newaccountbypass-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+     res.render("settings/newaccountbypass-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+     });
+})
+
+router.post("/dashboard/:guildID/newaccountbypass-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    await Server.findOneAndUpdate(
+      { id: guild.id },
+      {
+        NewAccountBypass: {
+          channel: req.body.channel,
+          enabled: req.body.durum,
+          minDay: req.body.limit,
+          role: req.body.role,
+        },
+      }
+    );
+    
+    res.render("settings/newaccountbypass-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/rolelog-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+     res.render("settings/rolelog-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+     });
+})
+
+router.post("/dashboard/:guildID/rolelog-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    await Server.findOneAndUpdate(
+      { id: guild.id },
+      { RoleLog: { enabled: req.body.durum, channel: req.body.channel } }
+    );
+
+    res.render("settings/rolelog-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/voicelog-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+     res.render("settings/voicelog-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+     });
+})
+
+router.post("/dashboard/:guildID/voicelog-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    await Server.findOneAndUpdate(
+      { id: guild.id },
+      { VoiceLogSystem: { enabled: req.body.durum, channel: req.body.channel } }
+    );
+
+    res.render("settings/voicelog-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/joinquit-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+     res.render("settings/joinquit-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+     });
+})
+
+router.post("/dashboard/:guildID/joinquit-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    const ServerData = await JoinLogger.findOne({ id: guild.id });
+
+    if(!ServerData) {
+      const newData = new JoinLogger({
+        id: guild.id
+      })
+      newData.save()
+    };
+
+    await JoinLogger.findOneAndUpdate({ id: guild.id }, { enabled: req.body.durum, channel: req.body.channel });
+
+    res.render("settings/joinquit-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/otorol-settings", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"));
+    
+     res.render("settings/otorol-settings", {
+       req: req,
+       user: req.isAuthenticated() ? req.user : null,
+       guild: guild,
+       bot: client,
+       ownerEnabled: checkOwner,
+     });
+})
+
+router.post("/dashboard/:guildID/otorol-settings", checkAuth, async (req, res) => {
+   const guild = client.guilds.cache.get(req.params.guildID)
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    const ServerData = await Otorole.findOne({ id: guild.id });
+
+    if(!ServerData) {
+      const newData = new Otorole({
+        id: guild.id,
+      });
+      newData.save()
+    };
+
+    await Otorole.findOneAndUpdate({ id: guild.id }, { enabled: req.body.durum, channel: req.body.channel, role: req.body.role });
+
+    res.render("settings/otorol-settings", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      ownerEnabled: checkOwner,
+    });
+});
+
+router.get("/dashboard/:guildID/rolelog", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID)
+
+    if(!guild)
+    return res.redirect("/?error=" + encodeURIComponent("I am not in this Guild yet, please add me before!"))
+    let member = guild.members.cache.get(req.user.id);
+    if(!member) {
+        try{
+            member = await guild.members.fetch(req.user.id);
+        } catch{
+
+        }
+    }
+    if(!member)
+    return res.redirect("/?error=" + encodeURIComponent("Login first please! / Join the Guild again!"))
+    if(!member.permissions.has(PermissionFlagsBits.ManageGuild))
+    return res.redirect("/?error=" + encodeURIComponent("You are not allowed to do that"))
+
+    const rolelog = await RoleLog.find({ guildID: guild.id });
+    let rolelogs = rolelog.sort((a, b) => b.Date - a.Date);
+
+    res.render("settings/rolelog", {
+      req: req,
+      user: req.isAuthenticated() ? req.user : null,
+      guild: guild,
+      bot: client,
+      rolelogs: rolelogs,
+      moment: moment,
+      ownerEnabled: checkOwner,
+    });
+})
+
 router.get("/admin", async (req, res) => {
     let user = client.users.cache.get(req.user.id);
    
@@ -215,6 +825,5 @@ router.post("/admin/guildlist", async (req, res) => {
         ownerEnabled: checkOwner,
       });
 })
-
 
 module.exports = router;

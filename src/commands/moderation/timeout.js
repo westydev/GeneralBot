@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { Punish } = require(`../../helpers/Moderation/Punish`); 
+const { Punishment } = require(`../../helpers/Moderation/Punish`); 
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,13 +17,13 @@ module.exports = {
 
     const moderator = interaction.client.guilds.cache.get(interaction.guild.id).members.cache.get(interaction.user.id);
 
-     const MuteMember = new Punish({
+     const MuteMember = new Punishment({
        member: member,
        punishType: "mute",
        time: time * 1000 * 60,
        reason: reason,
        moderator: moderator,
-       saveToDatabase: true
+       saveToDatabase: true,
      });
      
      await MuteMember.approval();

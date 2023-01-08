@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-       <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/index.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">        
+        <link rel="stylesheet" href="/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
@@ -18,10 +18,10 @@
                         return (bot.guilds.cache.get(a.id) == bot.guilds.cache.get(b.id)) ? 0 : a ? -1 : 1;
                     }).forEach(guild => {
                     %>
-                        <div class="rounded-md w-32 h-32 text-white bg-dark mb-3">
+                        <div class="card text-white bg-dark mb-3">
                             <%- guild.icon ? `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}" class="card-img-top" style="max-width: 250px;width: 250px;">` : `<img src="https://cdn.discordapp.com/attachments/765919453766352916/877787616974622770/wCfHtuoejLIbAAAAABJRU5ErkJggg.png" class="card-img-top" style="max-width: 250px;width: 250px;">` %>
-                            <div class="card-img-overlay text-gray-200 h-100 d-flex flex-column justify-content-end" style="background: #000000b0;max-width: 250px;width: 250px;">
-                                <h5 class="card-title text-white" style="font-size: 25px;"><%= guild.name %></h5>
+                            <div class="card-img-overlay text-grey h-100 d-flex flex-column justify-content-end" style="background: #000000b0;max-width: 250px;width: 250px;">
+                                <h5 class="card-title text-primary" style="font-size: 25px;"><%= guild.name %></h5>
                                 <% if(bot.guilds.cache.get(guild.id)){ %>
                                     <p class="card-text" style="font-size: 12px;font-style:italic;color: #b3b3b3">Edit <b><%= guild.name %></b>'s Settings via the Dashboard by clicking the Button below!</p>
                                     <a style="font-size: 25px" href=" http://localhost:3000/dashboard/<%- guild.id %>"
@@ -37,9 +37,7 @@
                     <% }) %>
                 </div>
             <% }else {  %>
-             <div class="rounded-md bg-rose-800 text-white">
                     <p>Please login First!</p>
-</div>
 
             <%  } %>
         </section>

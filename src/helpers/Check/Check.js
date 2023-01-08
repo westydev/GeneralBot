@@ -1,5 +1,5 @@
 const { BOT } = require("../../Settings/Config") 
-const { User, Server, Punish } = require("../../database/Databases");
+const { User, Server } = require("../../database/Databases");
 const tr_TR = require("../../Settings/Assets/tr_TR.json")
 const en_EN = require("../../Settings/Assets/en_EN.json");
 

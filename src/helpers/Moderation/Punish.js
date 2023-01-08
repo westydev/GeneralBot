@@ -1,7 +1,7 @@
 const { ModerationCore } = require("./ModerationCore")
-const PunishData = require("../../database/Punish")
+const { Punish } = require("../../database/Databases")
 
-class Punish {
+class Punishment {
     constructor({ punishType, member, time, reason, saveToDatabase, moderator }) {
         this.punishType = punishType;
         this.member = member;
@@ -18,7 +18,7 @@ class Punish {
                     const Ban = new ModerationCore({ member: this.member })
                     Ban.ban()
                     if (this.saveToDatabase === true) {
-                        const BanData = new PunishData({
+                        const BanData = new Punish({
                           guildID: this.member.guild.id,
                           memberID: this.member.id,
                           moderatorID: this.moderator.id,
@@ -34,7 +34,7 @@ class Punish {
                     const Kick = new ModerationCore({ member: this.member });
                     Kick.kick()
                     if (this.saveToDatabase === true) {
-                        const KickData = new PunishData({
+                        const KickData = new Punish({
                           guildID: this.member.guild.id,
                           memberID: this.member.id,
                           moderatorID: this.moderator.id,
@@ -50,7 +50,7 @@ class Punish {
                     const Mute = new ModerationCore({ member: this.member });
                     Mute.mute(this.time)
                     if (this.saveToDatabase === true) {
-                        const MuteData = new PunishData({
+                        const MuteData = new Punish({
                           guildID: this.member.guild.id,
                           memberID: this.member.id,
                           moderatorID: this.moderator.id,
@@ -71,4 +71,4 @@ class Punish {
     }
 }
 
-module.exports = { Punish }
+module.exports = { Punishment };

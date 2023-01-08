@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { Punish } = require(`../../helpers/Moderation/Punish`) 
+const { Punishment } = require(`../../helpers/Moderation/Punish`) 
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,12 +13,12 @@ module.exports = {
     const member = interaction.options.getMember("user");
     const reason = interaction.options.getString("reason");
     const moderator = interaction.client.guilds.cache.get(interaction.guild.id).members.cache.get(interaction.user.id);
-     const BanMember = new Punish({
+     const BanMember = new Punishment({
        member: member,
        punishType: "ban",
        reason: reason,
        moderator: moderator,
-       saveToDatabase: true
+       saveToDatabase: true,
      });
      await BanMember.approval();
       await interaction.reply({ content: `${Lang.commands.moderationCommands.ban.banSuccess}` });

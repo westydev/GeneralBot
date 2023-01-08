@@ -2,12 +2,13 @@ const { Events, ChannelType } = require("discord.js")
 const { allCheck, BlacklistedWord } = require("../../helpers/Check/WordCheck");
 const { checkUserForDatabase, guildSystemsEnabled } = require("../../helpers/Check/Check");
 const { User } = require("../../database/Databases");
-const { Punish } = require("../../helpers/Moderation/Punish");
+const { Punishment } = require("../../helpers/Moderation/Punish");
 
 module.exports = {
   name: Events.MessageCreate,
   async execute(message) {
-    if (message.channel.type === ChannelType.DM) return;
+    try {
+      if (message.channel.type === ChannelType.DM) return;
     const WordResults = await allCheck(message.content);
 
     await checkUserForDatabase(message.author.id);
@@ -31,7 +32,7 @@ module.exports = {
         }
         if (SwearGuardProcess === "REMOVE:MESSAGE_TIMEOUT:USER") {
           if (message && message.deletable) message.delete({ timeout: 0120 }).catch(() => {});
-          const UserPunishProcess = new Punish({
+          const UserPunishProcess = new Punishment({
             member: message.member,
             moderator: client.user,
             punishType: "mute",
@@ -43,7 +44,7 @@ module.exports = {
         }
         if (SwearGuardProcess === "REMOVE:MESSAGE_BAN:USER") {
           if (message && message.deletable) message.delete({ timeout: 0120 }).catch(() => {});
-          const UserPunishProcess = new Punish({
+          const UserPunishProcess = new Punishment({
             member: message.member,
             moderator: client.user,
             punishType: "ban",
@@ -62,7 +63,7 @@ module.exports = {
         }
         if (AdversGuardProcess === "REMOVE:MESSAGE_TIMEOUT:USER") {
           if (message && message.deletable) message.delete({ timeout: 0120 }).catch(() => {});
-          const UserPunishProcess = new Punish({
+          const UserPunishProcess = new Punishment({
             member: message.member,
             moderator: client.user,
             punishType: "mute",
@@ -74,7 +75,7 @@ module.exports = {
         }
         if (AdversGuardProcess === "REMOVE:MESSAGE_BAN:USER") {
           if (message && message.deletable) message.delete({ timeout: 0120 }).catch(() => {});
-          const UserPunishProcess = new Punish({
+          const UserPunishProcess = new Punishment({
             member: message.member,
             moderator: client.user,
             punishType: "ban",
@@ -90,7 +91,7 @@ module.exports = {
 
     if(BlacklistedWordEnabled == true) {
       if (message && message.deletable) message.delete({ timeout: 0120 }).catch(() => {});
-      const UserPunishProcess = new Punish({
+      const UserPunishProcess = new Punishment({
         member: message.member,
         moderator: client.user,
         punishType: "mute",
@@ -105,7 +106,7 @@ module.exports = {
       if(message.content.length  > GuildConfigs.ChatGuard.CharacterLimit.CharacterLimit) {
         if (message && message.deletable)
           message.delete({ timeout: 0120 }).catch(() => {});
-        const UserPunishProcess = new Punish({
+        const UserPunishProcess = new Punishment({
           member: message.member,
           moderator: client.user,
           punishType: "mute",
@@ -116,8 +117,8 @@ module.exports = {
         await UserPunishProcess.approval();
       }
     }
-
-
-    
+    } catch (error) {
+      
+    }
   }
 };

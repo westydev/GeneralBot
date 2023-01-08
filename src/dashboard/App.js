@@ -4,11 +4,11 @@ const express = require("express")
 const passport = require("passport");
 const session = require("express-session");
 const path = require("path");
-const MemoryStore = require("memorystore")(session);
+const MongoStore = require("connect-mongo");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
 
-const { DASHBOARD, BOT } = require("../Settings/Config")
+const { DASHBOARD, BOT, DATABASE } = require("../Settings/Config")
 const { error, info, success, warn } = require("../helpers/Logger/Log");
 const login = require("./login/login");
 const mainRouter = require("./routers/MainRouter")
@@ -26,11 +26,12 @@ app
 .set("views", path.join(__dirname, "/views"))
 
 app.use(session({
-    store: new MemoryStore({checkPeriod: 86400000 }),
-    secret: DASHBOARD.AUTH.sessionSecret,
-    resave: false,
-    saveUninitialized: false
-}))
+  secret: DASHBOARD.AUTH.sessionSecret,
+  resave: true,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: DATABASE.mongooseConnection })
+}));
+
 
 app.use(passport.initialize())
 app.use(passport.session())

@@ -6,7 +6,8 @@ const { RoleLog } = require("../../database/Databases")
 const { guildSystemsEnabled } = require("../../helpers/Check/Check");
 
 client.on("guildMemberRoleRemove", async (member, role) => {
-      const GuildConfs = await guildSystemsEnabled(member.guild.id);
+  try {
+    const GuildConfs = await guildSystemsEnabled(member.guild.id);
 
           console.log(GuildConfs);
 
@@ -45,4 +46,7 @@ client.on("guildMemberRoleRemove", async (member, role) => {
        type: "Rol Alındı",
      });
       roleLogData.save();
+  } catch (error) {
+    
+  }
   });

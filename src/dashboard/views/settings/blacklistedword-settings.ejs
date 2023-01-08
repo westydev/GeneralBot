@@ -1,0 +1,54 @@
+<%- include('../includes/header'); -%>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/index.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+  </head>
+  <body>
+    <section>
+        <center>
+                <h1 style="font-size: 75px;color:#828cff">
+                    <i class="iconify" data-icon="ant-design:dashboard-filled"></i>
+                </h1>
+                <div class="form-body" style="margin-top: -2%;">
+                    <div class="form-holder">
+                        <div class="form-content">
+                            <div class="form-items">
+                                <p>Change the Server Blacklisted Word Guard System.</p>
+                                <form method="POST">
+                                   <p style="font-style: italic;" class="disabled">Words</p>
+                                     <input style="margin-top: -10px;" type="text" class="form-control" name="words" placeholder="Lütfen Sözlerin Arasına Virgül Koyunuz.">
+                                    <br><br>
+                                    <table class="table table-striped table-dark">
+                                    <% BlacklistedWords.forEach(woorddd => { %>
+                                       <tr>
+                                        <td><%= woorddd %></td>
+                                       </tr>
+                                    <% }) %>
+                                    </table>
+                                    <br><br>
+                                    <button type="submit" class="btn btn-success text-white" style="font-size: 40px;">
+                                        <i class="iconify" data-icon="cil:save"></i> Save Settings
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+    </section>
+    <%- include('../includes/footer'); -%>
+  </body>
+</html>

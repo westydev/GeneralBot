@@ -4,16 +4,22 @@ const { BOTLOGS } = require("../../Settings/Config")
 module.exports = {
   name: Events.MessageCreate,
   async execute(message) {
-    if (message.channel.type === ChannelType.DM) {
-    const embed = new EmbedBuilder()
-    .setTitle("Bota Mesaj Gönderildi")
-    .addFields(
-        {  name: `Mesaj Sahibi`, value: `${message.author.id}`  },
-        {  name: `Tarih`, value: `${Date.now()}` }
-    )
-    .setDescription(`Mesaj: ${message.content}`)
+    try {
+         if (message.channel.type === ChannelType.DM) {
+           const channel = client.channels.cache.get(BOTLOGS.DmLogChannel);
+           if (!channel) return;
+           const embed = new EmbedBuilder()
+             .setTitle("Bota Mesaj Gönderildi")
+             .addFields(
+               { name: `Mesaj Sahibi`, value: `${message.author.id}` },
+               { name: `Tarih`, value: `${Date.now()}` }
+             )
+             .setDescription(`Mesaj: ${message.content}`);
 
-    client.channels.cache.get(BOTLOGS.DmLogChannel).send({ embeds: [embed] })
+           channel.send({ embeds: [embed] });
+         }
+    } catch (error) {
+      
     }
   },
 };

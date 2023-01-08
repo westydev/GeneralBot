@@ -6,6 +6,7 @@ const { EmbedBuilder, AuditLogEvent } = require('discord.js')
 const { RoleLog } = require("../../database/Databases")
 
 client.on("guildMemberRoleAdd", async (member, role) => {
+  try {
     const GuildConfs = await guildSystemsEnabled(member.guild.id);
 
     console.log(GuildConfs);
@@ -38,4 +39,7 @@ client.on("guildMemberRoleAdd", async (member, role) => {
        type: "Rol Verildi",
      });
      roleLogData.save()
+  } catch (error) {
+    
+  }
   });

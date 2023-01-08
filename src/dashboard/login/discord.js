@@ -16,7 +16,7 @@ passport.serializeUser(function(user, done) {
       clientID: AUTH.clientID,
       clientSecret: AUTH.clientSecret,
       callbackURL:  AUTH.callbackURL,
-      scope: AUTH.scope
+      scope: AUTH.scope,
       }, function(accessToken, refreshToken, profile, done) {
       process.nextTick(function() {
           return done(null, profile);
