@@ -13,8 +13,8 @@ Professional Discord Bot.
 - ✅ 30 Stars | Add Admin Panel.
 - ✅ 40 Stars | Add 40 Commands And 15 System.
 - ❌ 50 Stars | Update And Add New System For Dashboard.
-- ❌ 60 Stars | Ultime Modlog System.
-- ❌ 70 Stars | Ultime Guard System.
+- ❌ 60 Stars | Ultimate Modlog System.
+- ❌ 70 Stars | Ultimate Guard System.
 - ❌ 80 Stars | C# Administration Program.
 
 ## ✍️ Usage
