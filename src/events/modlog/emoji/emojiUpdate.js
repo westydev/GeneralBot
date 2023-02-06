@@ -6,7 +6,8 @@ const logs = require("discord-logs");
 logs(client);
 
 client.on("emojiUpdate", async function(oldEmoji, newEmoji) {
-  const GData = await Modlog.findOne({ id: emoji.guild.id });
+  const GData = await Modlog.findOne({ id: oldEmoji.guild.id });
+  if(!GData) return
   const LogChannel = GData.EmojiLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);

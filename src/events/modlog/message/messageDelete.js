@@ -12,6 +12,7 @@ const { Modlog } = require("../../../database/Databases");
 
 client.on(Events.MessageDelete, async function (message) {
     const GData = await Modlog.findOne({ id: message.guild.id });
+    if(!GData) return
   const LogChannel = GData.MessageLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);

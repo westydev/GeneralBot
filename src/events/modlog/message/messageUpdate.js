@@ -12,7 +12,8 @@ logs(client);
 const { Modlog } = require("../../../database/Databases");
 
 client.on(Events.MessageUpdate, async function (oldMessage, newMessage) {
-    const GData = await Modlog.findOne({ id: message.guild.id });
+    const GData = await Modlog.findOne({ id: oldMessage.guild.id });
+    if(!GData) return
       const LogChannel = GData.MessageLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);

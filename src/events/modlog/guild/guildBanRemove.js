@@ -12,6 +12,7 @@ logs(client);
 
 client.on("guildBanRemove", async (guild, user, message) => {
     const GData = await Modlog.findOne({ id: guild.id });
+    if(!GData) return
   const LogChannel = GData.GuildMemberLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);

@@ -1,6 +1,5 @@
 require("../events/modlog/channel/channelCreate");
 require("../events/modlog/channel/channelDelete");
-require("../events/modlog/channel/channelPermissionsUpdate");
 require("../events/modlog/channel/channelPinsUpdate");
 require("../events/modlog/channel/channelTopicUpdate");
 

@@ -7,6 +7,7 @@ logs(client);
 
 client.on("guildBanAdd", async(guild, user) => {
     const GData = await Modlog.findOne({ id: guild.id });
+    if(!GData) return
   const LogChannel = GData.GuildMemberLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);

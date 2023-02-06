@@ -11,7 +11,8 @@ const logs = require("discord-logs");
 logs(client);
 
 client.on(Events.MessageBulkDelete, async function (messages) {
-    const GData = await Modlog.findOne({ id: message.guild.id });
+    const GData = await Modlog.findOne({ id: messages[0].guild.id });
+    if(!GData) return
   const LogChannel = GData.MessageLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);
@@ -21,20 +22,20 @@ if (!channel) return;
   embed
 
     .setAuthor({
-     name: `${messages.array()[0].guild.name}: Çoklu Mesaj Silindi!`,
+     name: `${messages[0].guild.name}: Çoklu Mesaj Silindi!`,
 
-     iconURL: messages.array()[0].guild.iconURL()
+     iconURL: messages[0].guild.iconURL()
 })
 
     .setColor("#E70000")
 
     .setDescription(
-      `**${messages.array()[0].author.username}**(\`${
-        messages.array()[0].author.id
+      `**${messages[0].author.username}**(\`${
+        messages[0].author.id
       }\`) Adlı Kullanıcı **${
         messages.size
       }** adet Mesaj Sildi! ** \n\n Sildiği Kanal :<#${
-        messages.array()[0].channel.id
+        messages[0].channel.id
       }>**`
     );
 

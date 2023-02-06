@@ -7,6 +7,7 @@ const { Modlog } = require("../../../database/Databases");
 
 client.on("roleDelete", async function(role) {
     const GData = await Modlog.findOne({ id: role.guild.id });
+    if(!GData) return
     const LogChannel = GData.RoleLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);

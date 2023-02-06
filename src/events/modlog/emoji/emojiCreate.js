@@ -7,6 +7,7 @@ logs(client);
 
 client.on("emojiCreate", async function(emoji) {
   const GData = await Modlog.findOne({ id: emoji.guild.id });
+    if(!GData) return
   const LogChannel = GData.EmojiLogs;
 if (!LogChannel) return;
 const channel = client.channels.cache.get(LogChannel);
