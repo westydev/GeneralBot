@@ -9,9 +9,6 @@ client.on("guildMemberRoleRemove", async (member, role) => {
   try {
     const GuildConfs = await guildSystemsEnabled(member.guild.id);
 
-          console.log(GuildConfs);
-
-
     const entry = await member.guild.fetchAuditLogs({ type: AuditLogEvent.MemberRoleUpdate }).then(logs => logs.entries.first());
     const id = entry.executor.id;
     let memberentry = client.users.cache.get(id)

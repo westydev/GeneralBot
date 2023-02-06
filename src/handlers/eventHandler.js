@@ -12,5 +12,6 @@ for (const file of clientEventFiles) {
     client.on(event.name, (...args) => event.execute(...args))
   }
  }
- require("./selfEventLoaders")  
+ require("./selfEventLoaders");
+ require("./modlogEventLoaders");  
 } 

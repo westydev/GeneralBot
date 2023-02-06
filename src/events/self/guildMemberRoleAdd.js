@@ -9,8 +9,6 @@ client.on("guildMemberRoleAdd", async (member, role) => {
   try {
     const GuildConfs = await guildSystemsEnabled(member.guild.id);
 
-    console.log(GuildConfs);
-
     if (!GuildConfs.Log.RoleLog.enabled) return;
     if (!GuildConfs.Log.RoleLog.channel) return;
 
