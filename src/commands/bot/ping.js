@@ -10,12 +10,6 @@ module.exports = {
    const cmdCreated = Date.now();
    const ping = client.ws.ping;
 
-   var status = ":badVds:";
-
-   if (ping >= 60) status = ":ehVds:";
-   if (ping >= 120) status = ":badVds:";
-   if (ping <= 30) status = ":goodVds:";
-
    return interaction.followUp({
      embeds: [
        new EmbedBuilder()
@@ -25,7 +19,7 @@ module.exports = {
            iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
          })
          .setDescription(
-           status + " **|** Ping pong, gecikme sürelerim aşağıda yer alıyor."
+            " **|** Ping pong, gecikme sürelerim aşağıda yer alıyor."
          )
          .addFields(
            {
